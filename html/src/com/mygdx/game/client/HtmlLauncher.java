@@ -4,7 +4,6 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
 import com.mygdx.game.Drop;
-import com.mygdx.game.MyGdxGame;
 
 public class HtmlLauncher extends GwtApplication {
 
