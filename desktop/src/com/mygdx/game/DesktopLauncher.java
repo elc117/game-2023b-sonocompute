@@ -9,8 +9,8 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setTitle("Space Invaders");
 		config.setWindowedMode(1080, 720);
-		config.useVsync(true);
-		config.setForegroundFPS(60);
+		//config.useVsync(true);
+		config.setForegroundFPS(144);
 		new Lwjgl3Application(new Invaders(), config);
 	}
 }
