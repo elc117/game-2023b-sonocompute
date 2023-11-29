@@ -11,7 +11,7 @@ public class Drop2 extends Game {
     public void create() {
         batch = new SpriteBatch();
         font = new BitmapFont(); // use libGDX's default Arial font
-        this.setScreen(new MainMenuScreen(this));
+       // this.setScreen(new MainMenuScreen(this));
     }
 
     public void render() {

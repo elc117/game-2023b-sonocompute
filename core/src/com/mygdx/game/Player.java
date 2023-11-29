@@ -12,23 +12,35 @@ public class Player {
     public Vector2 position;
     public Vector2 position_bullet;
 
+    public Vector2 position_player_lives;
+
     public Sprite sprite_bullet;
     public Sprite sprite_player;
+
+    public Sprite sprite_player_lives;
     public float speed = 500;
     public float speed_bullet = 1000;
 
+    public int numLives = 3;
 
 
-    public Player(Texture img,Texture img_bullet, Color color) {
-        sprite_player = new Sprite(img);
-        sprite_player.setScale(1);
-        sprite_player.setColor(color);
-        position = new Vector2(Gdx.graphics.getWidth()/2,sprite_player.getScaleY()*sprite_player.getHeight()/2);//positionplayer
 
-        sprite_bullet = new Sprite(img_bullet);
-        sprite_bullet.setScale(1);
-        sprite_bullet.setColor(color);
-        position_bullet = new Vector2(0, 10000);
+    public Player(Texture img,Texture img_bullet, Color color, Texture img_player_lifes) {
+            sprite_player = new Sprite(img);
+            sprite_player.setScale(1);
+            sprite_player.setColor(color);
+            position = new Vector2(Gdx.graphics.getWidth()/2,sprite_player.getScaleY()*sprite_player.getHeight()/2);//positionplayer
+
+            sprite_bullet = new Sprite(img_bullet);
+            sprite_bullet.setScale(1);
+            sprite_bullet.setColor(color);
+            position_bullet = new Vector2(0, 10000);
+
+
+            sprite_player_lives = new Sprite(img_player_lifes);
+            sprite_player_lives.setScale(0.3F);
+            sprite_player_lives.setColor(color);
+            position_player_lives = new Vector2(0, 720);
 
     }
 
@@ -49,10 +61,18 @@ public class Player {
 
     public void Draw(SpriteBatch batch){//here is where it happens with player
         UpdatePosition(Gdx.graphics.getDeltaTime());
+
         sprite_player.setPosition(position.x, position.y);
         sprite_player.draw(batch);
+
         sprite_bullet.setPosition(position_bullet.x, position_bullet.y);
         sprite_bullet.draw(batch);
+
+
+
+        sprite_player_lives.setPosition(position_player_lives.x, position_player_lives.y);
+        sprite_player_lives.draw(batch);
+
     }
 
 
