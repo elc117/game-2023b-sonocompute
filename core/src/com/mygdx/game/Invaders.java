@@ -19,7 +19,7 @@ public class Invaders extends Game {
     public SpriteBatch batch;
 
     public BitmapFont font;
-    public Texture img;
+    //public Texture img;
 
     @Override
     public void create() {
@@ -37,7 +37,7 @@ public class Invaders extends Game {
     public void dispose(){
         batch.dispose();
         font.dispose();
-        img.dispose();
+        //img.dispose();
     }
 
 }

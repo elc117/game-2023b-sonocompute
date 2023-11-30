@@ -29,10 +29,10 @@ public class InvadersGameScreen implements Screen {
     int NumHeight_lifes = 5;
 
     public Alien[] aliens;
-    int NumWidth_aliens = 11;
-    int NumHeight_aliens = 5;
+    int NumWidth_aliens = 6;
+    int NumHeight_aliens = 8;
 
-    int spacing_aliens = 50;
+    int spacing_aliens = 60;
 
     int minX_aliens;
 
@@ -60,8 +60,8 @@ public class InvadersGameScreen implements Screen {
 
         offset_aliens = Vector2.Zero;
         img = new Texture("Player.png");
-        img_bullet = new Texture("Bullet.png");
-        img_alien = new Texture("alien.png");
+        img_bullet = new Texture("bullet.png");
+        img_alien = new Texture("real-dino.png");
         img_player_lives = new Texture("lige_space.png");
         player = new Player(img,img_bullet, Color.GREEN, img_player_lives);//pass life player texture in here and
         aliens = new Alien[NumWidth_aliens*NumHeight_aliens];
@@ -142,7 +142,7 @@ public class InvadersGameScreen implements Screen {
             speed_aliens+=5;
         }
         if(aliens[minY_aliens].position.y<=0){
-            Gdx.app.exit();
+            //Gdx.app.exit();
         }
 
         for(int i = 0; i<aliens.length; i++) {

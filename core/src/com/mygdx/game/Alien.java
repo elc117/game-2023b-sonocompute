@@ -1,6 +1,9 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,8 +21,8 @@ public class Alien {
         position = _position;
         position_initial = position;
         sprite = new Sprite(img);
-        sprite.setColor(color);
-        sprite.setScale(1);
+        //sprite.setColor(color);
+        sprite.setScale(0.1F);
 
     }
 

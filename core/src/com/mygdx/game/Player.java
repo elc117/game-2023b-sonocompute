@@ -27,18 +27,18 @@ public class Player {
 
     public Player(Texture img,Texture img_bullet, Color color, Texture img_player_lifes) {
             sprite_player = new Sprite(img);
-            sprite_player.setScale(1);
+            sprite_player.setScale(1F);
             sprite_player.setColor(color);
             position = new Vector2(Gdx.graphics.getWidth()/2,sprite_player.getScaleY()*sprite_player.getHeight()/2);//positionplayer
 
             sprite_bullet = new Sprite(img_bullet);
-            sprite_bullet.setScale(1);
-            sprite_bullet.setColor(color);
-            position_bullet = new Vector2(0, 10000);
+            sprite_bullet.setScale(0.2F);
+            //sprite_bullet.setColor(color);
+            position_bullet = new Vector2(Gdx.graphics.getWidth()/2,sprite_player.getScaleY()*sprite_player.getHeight()/2);
 
 
             sprite_player_lives = new Sprite(img_player_lifes);
-            sprite_player_lives.setScale(0.3F);
+            sprite_player_lives.setScale(0.2F);
             sprite_player_lives.setColor(color);
             position_player_lives = new Vector2(0, 720);
 
