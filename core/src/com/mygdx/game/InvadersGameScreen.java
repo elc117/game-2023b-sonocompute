@@ -1,11 +1,14 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -14,13 +17,17 @@ public class InvadersGameScreen implements Screen {
     final Invaders game;
 
     public Sound shotSound;
-    Music AmbienceMusic;
+
+    public Music ambience;
+
     public Texture img;
     public Texture img_bullet;
 
     public Texture img_player_lives;
 
     public Texture img_alien;
+
+    public Texture background;
     public Player player;
 
     public PlayerLives[] player_lives;
@@ -32,7 +39,7 @@ public class InvadersGameScreen implements Screen {
     int NumWidth_aliens = 6;
     int NumHeight_aliens = 8;
 
-    int spacing_aliens = 60;
+    int spacing_aliens = 40;
 
     int minX_aliens;
 
@@ -45,7 +52,7 @@ public class InvadersGameScreen implements Screen {
     public Vector2 offset_aliens;
 
     int direction_aliens = 1;
-    float speed_aliens = 300;
+    float speed_aliens = 500;
 
     int amount_alive_aliens = 0;
 
@@ -59,13 +66,19 @@ public class InvadersGameScreen implements Screen {
         this.game = game;
 
         offset_aliens = Vector2.Zero;
-        img = new Texture("Player.png");
-        img_bullet = new Texture("bullet.png");
+        img = new Texture("player.png");
+        img_bullet = new Texture("Meteor2.png");
         img_alien = new Texture("real-dino.png");
-        img_player_lives = new Texture("lige_space.png");
+        img_player_lives = new Texture("hearth.png");
+        background = new Texture("back.png");
+
+        shotSound = Gdx.audio.newSound(Gdx.files.internal("biggun2.wav"));
+        ambience = Gdx.audio.newMusic(Gdx.files.internal("Raining Bits.ogg"));
+        ambience.setVolume(0.1F);
+        ambience.setLooping(true);
+        //background = new Texture();
         player = new Player(img,img_bullet, Color.GREEN, img_player_lives);//pass life player texture in here and
         aliens = new Alien[NumWidth_aliens*NumHeight_aliens];
-        //player_lives = new PlayerLives[NumWidth_lifes*NumHeight_lifes];
 
         int i = 0;
         for (int y = 0; y < NumHeight_aliens; y++){
@@ -83,16 +96,25 @@ public class InvadersGameScreen implements Screen {
 
     @Override
     public void show() {
-
+        ambience.play();
     }
 
     @Override
     public void render(float delta) {
         float deltaTime = Gdx.graphics.getDeltaTime();
-        ScreenUtils.clear(0,0,0,1);
+        //ScreenUtils.clear(0,0,0,1);
+        Gdx.gl.glClearColor(1, 0, 0, 1);
+
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+
+
         game.batch.begin();
+        game.batch.draw(background, 0 , 0);
         game.font.setColor(Color.GREEN);
+
         game.font.draw(game.batch, "Points: " + points, 100, 150);
+        game.font.getData().setScale(2F);
         game.font.draw(game.batch, "" + lives, 30, 830);
         player.Draw(game.batch);
         for(int i = 0; i<aliens.length; i++){
@@ -104,6 +126,10 @@ public class InvadersGameScreen implements Screen {
                     break;
                 }
             }
+        }
+
+        if(player.sprite_bullet.getBoundingRectangle().overlaps(player.sprite_player.getBoundingRectangle())){//makes shot song
+            shotSound.play();
         }
 
         minX_aliens = 10000;
@@ -131,12 +157,12 @@ public class InvadersGameScreen implements Screen {
             return;
         }
         offset_aliens.x+=direction_aliens*deltaTime*speed_aliens;
-        if(aliens[maxX_aliens].position.x>= Gdx.graphics.getWidth()){ //if aliens hit right border they wil turn direction
+        if(aliens[maxX_aliens].position.x>=Gdx.graphics.getWidth()-400){ //if aliens hit right border they wil turn direction
             direction_aliens = -1;
             offset_aliens.y-=aliens[0].sprite.getHeight()*aliens[0].sprite.getScaleY()*0.25f;//makes alies move down
             speed_aliens+=5;
         }
-        if(aliens[minX_aliens].position.x<=0){//if aliens hit left border they wil turn direction
+        if(aliens[minX_aliens].position.x<-190){//if aliens hit left border they wil turn direction
             direction_aliens = 1;
             offset_aliens.y-=aliens[0].sprite.getHeight()*aliens[0].sprite.getScaleY()*0.25f;
             speed_aliens+=5;
@@ -150,7 +176,10 @@ public class InvadersGameScreen implements Screen {
             if(aliens[i].Active){
                 aliens[i].Draw(game.batch);
                 if(aliens[i].sprite.getBoundingRectangle().overlaps(player.sprite_player.getBoundingRectangle())){//tests if the aliens hits player
-                    lives--;
+                    aliens[i].Active = true;
+                    this.resetAliensOfsset(offset_aliens);
+                    player.resetPosition(player.position);
+                    lives-=1;
                     if(lives == 0){
                         Gdx.app.exit();
                     }
@@ -160,6 +189,13 @@ public class InvadersGameScreen implements Screen {
             //aliens[i].Draw(batch);
         }
         game.batch.end();
+
+    }
+
+    public Vector2 resetAliensOfsset(Vector2 offset_aliens){
+        offset_aliens.x = 0;
+        offset_aliens.y = 0;
+        return offset_aliens;
     }
 
     @Override

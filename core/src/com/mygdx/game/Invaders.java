@@ -16,10 +16,18 @@ import jdk.tools.jmod.Main;
 
 public class Invaders extends Game {
 
+   ;
     public SpriteBatch batch;
-
     public BitmapFont font;
     //public Texture img;
+
+    public Invaders () {
+
+    }
+
+    public Invaders (SpriteBatch batch) {
+        this.batch = batch;
+    }
 
     @Override
     public void create() {

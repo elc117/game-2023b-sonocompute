@@ -58,8 +58,8 @@ public class MainMenuScreen implements Screen {
         game.batch.end();
 
         if (Gdx.input.isTouched()) {
-            game.setScreen(new InvadersGameScreen(game));
-            dispose();
+                game.setScreen(new InvadersGameScreen(game));
+                dispose();
         }
     }
 
