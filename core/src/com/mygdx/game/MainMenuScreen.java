@@ -5,8 +5,13 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class MainMenuScreen implements Screen {
@@ -18,6 +23,15 @@ public class MainMenuScreen implements Screen {
 
      public Stage stage;
 
+    private TextButton startButton;
+
+    private TextButton optionsButton;
+
+    private TextButton textButton;
+
+    private Skin skin;
+
+    private BitmapFont font;
 
     public MainMenuScreen(final Invaders game) {
         this.game = game;
@@ -27,13 +41,49 @@ public class MainMenuScreen implements Screen {
         camera.setToOrtho(false, 1100, 880);
 
         stage = new Stage();
+
+        Gdx.input.setInputProcessor(stage);
+
+
+        skin = new Skin();
+
+        font = new BitmapFont();
+
+        skin.add("default", font);
+
+
+        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+
+        textButtonStyle.font = skin.getFont("default");
+
+
+        textButton = new TextButton("Start Game", textButtonStyle);
+
+        textButton.setWidth(150);
+
+        textButton.setHeight(50);
+
+        textButton.setPosition(stage.getWidth() / 2 - textButton.getWidth() / 2, stage.getHeight() / 2 - textButton.getHeight() / 2);
+
+        textButton.addListener(new ChangeListener() {
+
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+
+            }
+
+        });
+        stage.addActor(textButton);
+
+
+        /*stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         menu_img = new Texture("Menu.png");
 
         //setting image size
         Image image = new Image(menu_img);
         image.setSize(1080, 720);
-        stage.addActor(image);
+        stage.addActor(image);*/
     }
 
     @Override
@@ -45,7 +95,7 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 
-        stage.act();
+        stage.act(Gdx.graphics.getDeltaTime());
         //initializing menu
         stage.draw();
 
@@ -53,7 +103,7 @@ public class MainMenuScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
-        game.font.draw(game.batch, "Welcome to Space Invaders!!! ", 100, 150);
+        game.font.draw(game.batch, "Welcome to Jurassic Invaders!!! ", 100, 150);
         game.font.draw(game.batch, "Tap anywhere to begin!", 100, 100);
         game.batch.end();
 
@@ -91,8 +141,9 @@ public class MainMenuScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-
-        menu_img.dispose();
+        skin.dispose();
+        //menu_img.dispose();
+        font.dispose();
 
     }
 }
